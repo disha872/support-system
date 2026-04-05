@@ -1,0 +1,47 @@
+{
+  "faqs": [
+    {"question": "What is refund policy?", "answer": "You can request a refund within 7 days of purchase."},
+    {"question": "How can I contact support?", "answer": "You can email us at support@mail.com."},
+    {"question": "What are your working hours?", "answer": "We are available from 9 AM to 6 PM."},
+    {"question": "How to track my order?", "answer": "You can track your order from the orders section."},
+    {"question": "Can I cancel my order?", "answer": "Yes, you can cancel before it is shipped."},
+    {"question": "How long does delivery take?", "answer": "Delivery usually takes 3-5 business days."},
+    {"question": "Do you offer international shipping?", "answer": "Yes, we ship worldwide."},
+    {"question": "What payment methods are accepted?", "answer": "We accept cards, UPI, and net banking."},
+    {"question": "Is cash on delivery available?", "answer": "Yes, cash on delivery is available in selected areas."},
+    {"question": "How do I reset my password?", "answer": "Click on 'Forgot Password' and follow instructions."},
+    
+    {"question": "How to update my profile?", "answer": "Go to account settings to update your profile."},
+    {"question": "Can I change my email address?", "answer": "Yes, you can change it in profile settings."},
+    {"question": "How do I delete my account?", "answer": "Please contact support to delete your account."},
+    {"question": "Why is my payment failing?", "answer": "Check your payment details or try another method."},
+    {"question": "Do you provide invoices?", "answer": "Yes, invoices are available in your order history."},
+    {"question": "How to apply coupon code?", "answer": "Enter the coupon at checkout page."},
+    {"question": "Why is my coupon not working?", "answer": "Check expiry date or usage conditions."},
+    {"question": "Can I return a product?", "answer": "Yes, returns are accepted within 7 days."},
+    {"question": "How to request a return?", "answer": "Go to orders and click 'Return' option."},
+    {"question": "When will I get refund?", "answer": "Refund will be processed within 5-7 days."},
+
+    {"question": "Do you have customer support number?", "answer": "Yes, call us at 1800-123-456."},
+    {"question": "Is there any warranty?", "answer": "Yes, products come with warranty if applicable."},
+    {"question": "How to check warranty?", "answer": "Warranty details are mentioned on product page."},
+    {"question": "Can I exchange a product?", "answer": "Yes, exchange is available for selected items."},
+    {"question": "What if I receive damaged product?", "answer": "Report within 48 hours for replacement."},
+    {"question": "Do you offer discounts?", "answer": "Yes, check our offers section regularly."},
+    {"question": "How to subscribe to newsletter?", "answer": "Enter your email in subscription box."},
+    {"question": "Can I unsubscribe emails?", "answer": "Yes, click unsubscribe link in email."},
+    {"question": "Is my data secure?", "answer": "Yes, we use encryption to protect your data."},
+    {"question": "Do you share user data?", "answer": "No, we do not share personal data."},
+
+    {"question": "How to login to my account?", "answer": "Use your email and password to login."},
+    {"question": "Why can't I login?", "answer": "Check credentials or reset your password."},
+    {"question": "What is your company policy?", "answer": "Please check terms and conditions page."},
+    {"question": "Where is your company located?", "answer": "We are based in India."},
+    {"question": "How can I give feedback?", "answer": "You can submit feedback via contact form."},
+    {"question": "Do you have mobile app?", "answer": "Yes, available on Play Store."},
+    {"question": "How to update app?", "answer": "Update via app store."},
+    {"question": "Why app is not working?", "answer": "Try restarting or updating the app."},
+    {"question": "Do you offer support on weekends?", "answer": "Limited support is available on weekends."},
+    {"question": "How to change language?", "answer": "Go to settings and select language."}
+  ]
+}
