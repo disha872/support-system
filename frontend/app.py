@@ -31,7 +31,7 @@ body {
 
 st.title("💬 Smart Customer Support System")
 
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = "https://support-system-zla6.onrender.com"
 
 # ---------------- MENU ----------------
 if not st.session_state.logged_in:
