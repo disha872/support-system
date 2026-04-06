@@ -103,14 +103,15 @@ def create_user(username, password):
 
 
 def get_user(username, password):
-    if cursor is None:
-        return None
-    try:
-        query = "SELECT id, username, password, role FROM users WHERE username=%s AND password=%s"
-        cursor.execute(query, (username, password))
-        return cursor.fetchone()
-    except:
-        return None
+    # Admin login
+    if username == "admin" and password == "admin123":
+        return (1, "admin", "admin123", "admin")
+
+    # Dummy user login
+    if username == "user" and password == "user123":
+        return (2, "user", "user123", "user")
+
+    return None
 
 
 # ---------------- CHAT HISTORY ----------------
