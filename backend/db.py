@@ -1,11 +1,13 @@
 import mysql.connector
 
 # ---------------- CONNECTION ----------------
+import os
+
 conn = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="@@S12345s@@",
-    database="support_system"
+    host=os.getenv("mysql.railway.internal"),
+    user=os.getenv("root"),
+    password=os.getenv("cTfdEyejDDTNGwlNTMVRWePciMGDrpET"),
+    database=os.getenv("railway")
 )
 
 cursor = conn.cursor()
