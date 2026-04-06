@@ -1,21 +1,31 @@
 import mysql.connector
-
-# ---------------- CONNECTION ----------------
 import os
 
-conn = mysql.connector.connect(
-    host="containers-xxx.railway.app",   # 👈 external host
-    user="root",
-    password="cTfdEyejDDTNGwlNTMVRWePciMGDrpET",
-    database="railway",
-    port=41295   # 👈 VERY IMPORTANT
-)
+# ---------------- SAFE CONNECTION ----------------
+conn = None
+cursor = None
 
-cursor = conn.cursor()
+try:
+    conn = mysql.connector.connect(
+        host=os.getenv("DB_HOST", "containers-xxx.railway.app"),
+        user=os.getenv("DB_USER", "root"),
+        password=os.getenv("DB_PASSWORD", "cTfdEyejDDTNGwlNTMVRWePciMGDrpET"),
+        database=os.getenv("DB_NAME", "railway"),
+        port=int(os.getenv("DB_PORT", 41295))
+    )
+    cursor = conn.cursor()
+    print("DB Connected ✅")
+
+except Exception as e:
+    print("DB Connection Failed ❌:", e)
+    conn = None
+    cursor = None
 
 
 # ---------------- CHAT ----------------
 def save_chat(message, response):
+    if cursor is None:
+        return
     try:
         query = "INSERT INTO chats (message, response) VALUES (%s, %s)"
         cursor.execute(query, (message, response))
@@ -26,6 +36,8 @@ def save_chat(message, response):
 
 # ---------------- TICKETS ----------------
 def create_ticket(issue, user):
+    if cursor is None:
+        return
     try:
         query = "INSERT INTO tickets (issue, user) VALUES (%s, %s)"
         cursor.execute(query, (issue, user))
@@ -35,31 +47,53 @@ def create_ticket(issue, user):
 
 
 def get_all_tickets():
-    query = "SELECT id, issue, user, status, created_at FROM tickets"
-    cursor.execute(query)
-    return cursor.fetchall()
+    if cursor is None:
+        return []
+    try:
+        query = "SELECT id, issue, user, status, created_at FROM tickets"
+        cursor.execute(query)
+        return cursor.fetchall()
+    except:
+        return []
 
 
 def resolve_ticket(ticket_id):
-    query = "UPDATE tickets SET status='Resolved' WHERE id=%s"
-    cursor.execute(query, (ticket_id,))
-    conn.commit()
+    if cursor is None:
+        return
+    try:
+        query = "UPDATE tickets SET status='Resolved' WHERE id=%s"
+        cursor.execute(query, (ticket_id,))
+        conn.commit()
+    except Exception as e:
+        print("Resolve Error:", e)
 
 
 def reply_ticket(ticket_id, reply):
-    query = "UPDATE tickets SET reply=%s, status='Resolved' WHERE id=%s"
-    cursor.execute(query, (reply, ticket_id))
-    conn.commit()
+    if cursor is None:
+        return
+    try:
+        query = "UPDATE tickets SET reply=%s, status='Resolved' WHERE id=%s"
+        cursor.execute(query, (reply, ticket_id))
+        conn.commit()
+    except Exception as e:
+        print("Reply Error:", e)
 
 
 def get_user_tickets(username):
-    query = "SELECT id, issue, reply, status FROM tickets WHERE user=%s"
-    cursor.execute(query, (username,))
-    return cursor.fetchall()
+    if cursor is None:
+        return []
+    try:
+        query = "SELECT id, issue, reply, status FROM tickets WHERE user=%s"
+        cursor.execute(query, (username,))
+        return cursor.fetchall()
+    except:
+        return []
 
 
 # ---------------- USERS ----------------
 def create_user(username, password):
+    if cursor is None:
+        return
     try:
         query = "INSERT INTO users (username, password, role) VALUES (%s, %s, 'user')"
         cursor.execute(query, (username, password))
@@ -69,20 +103,35 @@ def create_user(username, password):
 
 
 def get_user(username, password):
-    query = "SELECT id, username, password, role FROM users WHERE username=%s AND password=%s"
-    cursor.execute(query, (username, password))
-    return cursor.fetchone()
+    if cursor is None:
+        return None
+    try:
+        query = "SELECT id, username, password, role FROM users WHERE username=%s AND password=%s"
+        cursor.execute(query, (username, password))
+        return cursor.fetchone()
+    except:
+        return None
 
 
 # ---------------- CHAT HISTORY ----------------
 def get_chats():
-    query = "SELECT message, response FROM chats ORDER BY id DESC LIMIT 10"
-    cursor.execute(query)
-    return cursor.fetchall()
+    if cursor is None:
+        return []
+    try:
+        query = "SELECT message, response FROM chats ORDER BY id DESC LIMIT 10"
+        cursor.execute(query)
+        return cursor.fetchall()
+    except:
+        return []
 
 
 # ---------------- ANALYTICS ----------------
 def get_ticket_stats():
-    query = "SELECT status, COUNT(*) FROM tickets GROUP BY status"
-    cursor.execute(query)
-    return cursor.fetchall()
+    if cursor is None:
+        return []
+    try:
+        query = "SELECT status, COUNT(*) FROM tickets GROUP BY status"
+        cursor.execute(query)
+        return cursor.fetchall()
+    except:
+        return []
