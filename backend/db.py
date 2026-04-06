@@ -4,10 +4,11 @@ import mysql.connector
 import os
 
 conn = mysql.connector.connect(
-    host=os.getenv("mysql.railway.internal"),
-    user=os.getenv("root"),
-    password=os.getenv("cTfdEyejDDTNGwlNTMVRWePciMGDrpET"),
-    database=os.getenv("railway")
+    host="containers-xxx.railway.app",   # 👈 external host
+    user="root",
+    password="cTfdEyejDDTNGwlNTMVRWePciMGDrpET",
+    database="railway",
+    port=3306   # 👈 VERY IMPORTANT
 )
 
 cursor = conn.cursor()
