@@ -8,7 +8,7 @@ conn = mysql.connector.connect(
     user="root",
     password="cTfdEyejDDTNGwlNTMVRWePciMGDrpET",
     database="railway",
-    port=3306   # 👈 VERY IMPORTANT
+    port=41295   # 👈 VERY IMPORTANT
 )
 
 cursor = conn.cursor()
