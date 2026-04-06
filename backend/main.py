@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from backend.chatbot import get_response
-from db import (
+from backend.db import (
     save_chat,
     create_ticket,
     get_all_tickets,
