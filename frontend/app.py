@@ -142,14 +142,12 @@ elif choice == "My Tickets":
         st.info("No tickets found")
     else:
         for t in res["tickets"]:
-            with st.container():
-                st.markdown(f"""
-                **🆔 ID:** {t['id']}  
-                **❗ Issue:** {t['issue']}  
-                **💬 Reply:** {t['reply']}  
-                **📌 Status:** {t['status']}  
-                """)
-                st.divider()
+            st.write(f"""
+            🆔 ID: {t[0]}  
+            ❗ Issue: {t[1]}  
+            💬 Reply: {t[2]}  
+            📌 Status: {t[3]}
+            """)
 
 # ---------------- ADMIN ----------------
 elif choice == "Admin":
@@ -169,4 +167,4 @@ elif choice == "Admin":
 
         if st.button(f"Send {t[0]}"):
             requests.post(f"{API}/reply/{t[0]}", json={"reply": reply})
-            st.success("Replied")
+            st.success("Replied ✅")
