@@ -1,27 +1,22 @@
 import json
+import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-import os
-import json
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(BASE_DIR, "data", "faq.json")
 
 with open(file_path, "r") as f:
     data = json.load(f)
 
-# with open("../data/faq.json") as f:
-#     data=json.load(f)
+questions = [item["question"] for item in data["faqs"]]
+answers = [item["answer"] for item in data["faqs"]]
 
-questions=[item["question"] for item in data["faqs"]]
-answers=[item["answer"] for item in data["faqs"]]
-
-vectorizer=TfidfVectorizer()
-X=vectorizer.fit_transform(questions)
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(questions)
 
 def get_response(user_input):
-    user_vec=vectorizer.transform([user_input])
+    user_vec = vectorizer.transform([user_input])
     similarity = cosine_similarity(user_vec, X)
     idx = similarity.argmax()
 
