@@ -157,23 +157,16 @@ elif choice == "Admin":
 
     res = requests.get(f"{API}/tickets").json()
 
-    if not res["tickets"]:
-        st.info("No tickets available")
-    else:
-        for t in res["tickets"]:
-            with st.container():
-                st.markdown(f"""
-                **🆔 ID:** {t['id']}  
-                **👤 User:** {t['user']}  
-                **❗ Issue:** {t['issue']}  
-                **📌 Status:** {t['status']}  
-                """)
+    for t in res["tickets"]:
+        st.write(f"""
+        🆔 ID: {t[0]}  
+        👤 User: {t[2]}  
+        ❗ Issue: {t[1]}  
+        📌 Status: {t[3]}
+        """)
 
-                reply = st.text_input(f"Reply to Ticket {t['id']}", key=f"reply_{t['id']}")
+        reply = st.text_input(f"Reply {t[0]}", key=f"reply_{t[0]}")
 
-                if st.button(f"Send Reply {t['id']}"):
-                    requests.post(f"{API}/reply/{t['id']}", json={"reply": reply})
-                    st.success("Replied successfully ✅")
-                    st.rerun()
-
-                st.divider()
+        if st.button(f"Send {t[0]}"):
+            requests.post(f"{API}/reply/{t[0]}", json={"reply": reply})
+            st.success("Replied")
