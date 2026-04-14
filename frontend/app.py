@@ -93,6 +93,7 @@ elif choice == "Home":
     """)
 
 # ---------------- CHAT ----------------
+# ---------------- CHAT ----------------
 elif choice == "Chat":
     st.title("💬 Chat Support")
 
@@ -102,23 +103,34 @@ elif choice == "Chat":
         if msg.strip() == "":
             st.warning("Please enter a message")
         else:
-            res = requests.post(f"{API}/chat", json={"message": msg}).json()
-            st.write(res)
+            try:
+                res = requests.post(f"{API}/chat", json={
+                    "message": msg,
+                    "user": st.session_state.username   # 👈 IMPORTANT
+                }).json()
 
-            if "response" in res:
-                st.success(f"🤖 {res['response']}")
+                # DEBUG (optional - baad me hata dena)
+                st.write(res)
 
-                if "don't understand" in res["response"]:
-                    st.warning("Not satisfied? Create a ticket 👇")
+                if isinstance(res, dict) and "response" in res:
+                    st.success(f"🤖 {res['response']}")
 
-                    if st.button("📩 Create Ticket"):
-                        requests.post(f"{API}/ticket", json={
-                            "issue": msg,
-                            "user": st.session_state.username
-                        })
-                        st.success("Ticket created ✅")
-            else:
-                st.error(res.get("error", "Server error"))
+                    # Agar bot samajh nahi paaya
+                    if "don't understand" in res["response"].lower():
+                        st.warning("Not satisfied? Create a ticket 👇")
+
+                        if st.button("📩 Create Ticket"):
+                            requests.post(f"{API}/ticket", json={
+                                "issue": msg,
+                                "user": st.session_state.username
+                            })
+                            st.success("Ticket created ✅")
+
+                else:
+                    st.error(res.get("error") or res.get("detail") or "Server error")
+
+            except Exception as e:
+                st.error(f"Error: {e}")
 
 # ---------------- USER TICKETS ----------------
 elif choice == "My Tickets":
