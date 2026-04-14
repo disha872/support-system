@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from db import *
-from chatbot import get_response
+from chatbot import get_response,save_chat
 
 app = FastAPI()
 
@@ -40,17 +40,22 @@ def login(user: User):
 
 # CHAT + AUTO TICKET
 @app.post("/chat")
-def chat(q: Query):
-    response = get_response(q.message)
+def chat(query: Query):
+    try:
+        if not query.message:
+            return {"error": "Message cannot be empty"}
 
-    if "don't understand" in response.lower():
-        create_ticket(q.message, q.user)
-        return {
-            "response": response,
-            "ticket": "Ticket created automatically"
-        }
+        response = get_response(query.message)
 
-    return {"response": response}
+        try:
+            save_chat(query.message, response)
+        except:
+            pass  # DB fail hone pe bhi app crash nahi hoga
+
+        return {"response": response}
+
+    except Exception as e:
+        return {"error": str(e)}
 
 # ADMIN
 @app.get("/tickets")
