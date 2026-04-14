@@ -34,7 +34,7 @@ if st.session_state.logged_in:
         st.session_state.role = ""
         st.rerun()
 
-# About section
+# About
 st.sidebar.markdown("## ℹ️ About App")
 st.sidebar.info("""
 Smart Customer Support System
@@ -90,32 +90,35 @@ elif choice == "Home":
     ✅ Get instant answers  
     ✅ If not satisfied → raise ticket  
     ✅ Track your tickets  
-
-    ---
     """)
 
 # ---------------- CHAT ----------------
-if st.button("Send"):
-    if msg.strip() == "":
-        st.warning("Please enter a message")
-    else:
-        res = requests.post(f"{API}/chat", json={"message": msg}).json()
+elif choice == "Chat":
+    st.title("💬 Chat Support")
 
-        if "response" in res:
-            st.success(f"🤖 {res['response']}")
+    msg = st.text_input("Type your problem")
 
-            if "don't understand" in res["response"]:
-                st.warning("Not satisfied? Create a ticket 👇")
-
-                if st.button("📩 Create Ticket"):
-                    requests.post(f"{API}/ticket", json={
-                        "issue": msg,
-                        "user": st.session_state.username
-                    })
-                    st.success("Ticket created ✅")
-
+    if st.button("Send"):
+        if msg.strip() == "":
+            st.warning("Please enter a message")
         else:
-            st.error(res.get("error", "Server error"))
+            res = requests.post(f"{API}/chat", json={"message": msg}).json()
+
+            if "response" in res:
+                st.success(f"🤖 {res['response']}")
+
+                if "don't understand" in res["response"]:
+                    st.warning("Not satisfied? Create a ticket 👇")
+
+                    if st.button("📩 Create Ticket"):
+                        requests.post(f"{API}/ticket", json={
+                            "issue": msg,
+                            "user": st.session_state.username
+                        })
+                        st.success("Ticket created ✅")
+            else:
+                st.error(res.get("error", "Server error"))
+
 # ---------------- USER TICKETS ----------------
 elif choice == "My Tickets":
     st.title("🎫 My Tickets")
@@ -138,8 +141,6 @@ elif choice == "My Tickets":
 # ---------------- ADMIN ----------------
 elif choice == "Admin":
     st.title("🧑‍💼 Admin Dashboard")
-
-    st.markdown("### 📋 All Tickets")
 
     res = requests.get(f"{API}/tickets").json()
 
