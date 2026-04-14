@@ -103,6 +103,7 @@ elif choice == "Chat":
             st.warning("Please enter a message")
         else:
             res = requests.post(f"{API}/chat", json={"message": msg}).json()
+            st.write(res)
 
             if "response" in res:
                 st.success(f"🤖 {res['response']}")
