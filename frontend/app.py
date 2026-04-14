@@ -95,17 +95,13 @@ elif choice == "Home":
     """)
 
 # ---------------- CHAT ----------------
-elif choice == "Chat":
-    st.title("💬 Chat Support")
+if st.button("Send"):
+    if msg.strip() == "":
+        st.warning("Please enter a message")
+    else:
+        res = requests.post(f"{API}/chat", json={"message": msg}).json()
 
-    msg = st.text_input("Type your problem")
-
-    if st.button("Send"):
-        if msg.strip() == "":
-            st.warning("Please enter a message")
-        else:
-            res = requests.post(f"{API}/chat", json={"message": msg}).json()
-
+        if "response" in res:
             st.success(f"🤖 {res['response']}")
 
             if "don't understand" in res["response"]:
@@ -118,6 +114,8 @@ elif choice == "Chat":
                     })
                     st.success("Ticket created ✅")
 
+        else:
+            st.error(res.get("error", "Server error"))
 # ---------------- USER TICKETS ----------------
 elif choice == "My Tickets":
     st.title("🎫 My Tickets")
